@@ -10,8 +10,8 @@ const cookieParser = require('cookie-parser');
 const compression = require('compression');
 const cors = require('cors');
 
-// const AppError = require('./Utils/appError');
-// const globalErrorHandler = require('./Controllers/errorController');
+const AppError = require('./Utils/appError');
+const globalErrorHandler = require('./Controllers/errorController');
 
 const userRouter = require('./Routes/userRoutes');
 const contactRouter = require('./Routes/contactRoutes');
@@ -96,10 +96,10 @@ app.use('/api/contacts', contactRouter);
 // }
 
 //To catch all unhandled routes (It has to be the last middleware or at least just after the predefined routers)
-// app.all('*', (req, res, next) => {
-//   next(new AppError(`Cannot find ${req.originalUrl} on this server!`, 404));
-// });
+app.all('*', (req, res, next) => {
+    next(new AppError(`Cannot find ${req.originalUrl} on this server!`, 404));
+});
 
-// app.use(globalErrorHandler);
+app.use(globalErrorHandler);
 
 module.exports = app;
