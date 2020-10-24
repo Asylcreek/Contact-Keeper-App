@@ -17,6 +17,11 @@ const userSchema = new mongoose.Schema({
         minlength: 8,
         select: false,
     },
+    role: {
+        type: String,
+        default: 'client',
+        enum: ['client', 'admin'],
+    },
     dateCreated: Date,
 });
 
