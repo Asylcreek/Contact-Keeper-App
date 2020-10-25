@@ -5,7 +5,12 @@
     "main": "server.js",
     "scripts": {
         "start": "node server.js",
-        "server": "nodemon server.js"
+        "server": "nodemon server.js",
+        "client": "cd Client && npm start",
+        "build": "cd Client && npm run build",
+        "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
+        "start:prod": "set NODE_ENV=production&&nodemon server.js",
+        "heroku-postbuild": "cd Client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
     },
     "author": "Asylcreek",
     "license": "ISC",
