@@ -12,7 +12,7 @@ exports.updateContact = factory.updateOne(Contact);
 exports.deleteContact = factory.deleteOne(Contact);
 
 exports.setUserQuery = (req, res, next) => {
-    if (req.params.userId) req.query.userId = req.params.userId;
+    req.query.user = req.user._id;
 
     next();
 };

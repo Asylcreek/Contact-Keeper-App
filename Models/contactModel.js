@@ -15,6 +15,7 @@ const contactSchema = new mongoose.Schema({
     type: {
         type: String,
         default: 'personal',
+        enum: ['personal', 'professional'],
     },
     dateCreated: Date,
 });
@@ -23,10 +24,12 @@ contactSchema.pre('save', function(next) {
     if (!this.isNew) return next();
 
     this.dateCreated = Date.now();
+
+    next();
 });
 
 contactSchema.pre(/^find/, function(next) {
-    const populateOptions = [{ path: 'user' }];
+    const populateOptions = [{ path: 'user', select: '-role -__v -dateCreated' }];
 
     this.populate(populateOptions);
 
