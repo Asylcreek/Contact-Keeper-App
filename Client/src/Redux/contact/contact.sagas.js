@@ -14,7 +14,7 @@ export function* getAllContacts() {
 }
 
 export function* onGetContactsStart() {
-    yield takeLatest(ContactActionTypes.ADD_CONTACT, getAllContacts);
+    yield takeLatest(ContactActionTypes.GET_CONTACTS, getAllContacts);
 }
 
 export function* contactSagas() {

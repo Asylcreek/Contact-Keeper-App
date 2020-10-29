@@ -23,13 +23,35 @@ const INITIAL_STATE = {
             type: 'professional',
         },
     ],
+    current: null,
 };
 
 const contactReducer = (currentState = INITIAL_STATE, action) => {
     switch (action.type) {
         case ContactActionTypes.ADD_CONTACT:
-            return {...currentState };
-
+            return {
+                ...currentState,
+                contacts: [...currentState.contacts, action.payload],
+            };
+        case ContactActionTypes.DELETE_CONTACT:
+            return {
+                ...currentState,
+                contacts: [
+                    ...currentState.contacts.filter(
+                        (contact) => contact.id !== action.payload
+                    ),
+                ],
+            };
+        case ContactActionTypes.SET_CURRENT_CONTACT:
+            return {
+                ...currentState,
+                current: action.payload,
+            };
+        case ContactActionTypes.CLEAR_CURRENT_CONTACT:
+            return {
+                ...currentState,
+                current: null,
+            };
         default:
             return currentState;
     }

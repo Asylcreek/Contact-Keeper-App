@@ -11,13 +11,12 @@ export const deleteContact = (id) => ({
 });
 
 export const setCurrentContact = (contact) => ({
-    type: ContactActionTypes.SET_CURRENT,
+    type: ContactActionTypes.SET_CURRENT_CONTACT,
     payload: contact,
 });
 
-export const clearCurrentContact = (contact) => ({
-    type: ContactActionTypes.CLEAR_CURRENT,
-    payload: contact,
+export const clearCurrentContact = () => ({
+    type: ContactActionTypes.CLEAR_CURRENT_CONTACT,
 });
 
 export const updateContact = (contact) => ({

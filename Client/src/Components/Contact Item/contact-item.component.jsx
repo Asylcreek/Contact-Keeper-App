@@ -1,5 +1,26 @@
-const ContactItem = ({ contact }) => {
+import { connect } from 'react-redux';
+
+import {
+  clearCurrentContact,
+  deleteContact,
+  setCurrentContact,
+} from '../../Redux/contact/contact.actions';
+
+const ContactItem = ({
+  contact,
+  deleteContact,
+  setCurrentContact,
+  clearCurrentContact,
+}) => {
   const { id, name, email, phoneNumber, type } = contact;
+
+  const handleDelete = () => {
+    //Delete the contact
+    deleteContact(id);
+
+    //Set current contact to null, for situations where the deleted contact is the current contact
+    clearCurrentContact();
+  };
 
   return (
     <div className="card bg-light">
@@ -27,11 +48,24 @@ const ContactItem = ({ contact }) => {
         )}
       </ul>
       <div>
-        <button className="btn btn-dark btn-sm">Edit</button>
-        <button className="btn btn-danger btn-sm">Delete</button>
+        <button
+          className="btn btn-dark btn-sm"
+          onClick={() => setCurrentContact(contact)}
+        >
+          Edit
+        </button>
+        <button className="btn btn-danger btn-sm" onClick={handleDelete}>
+          Delete
+        </button>
       </div>
     </div>
   );
 };
 
-export default ContactItem;
+const mapDispatchToProps = (dispatch) => ({
+  setCurrentContact: (contact) => dispatch(setCurrentContact(contact)),
+  clearCurrentContact: () => dispatch(clearCurrentContact()),
+  deleteContact: (id) => dispatch(deleteContact(id)),
+});
+
+export default connect(null, mapDispatchToProps)(ContactItem);
