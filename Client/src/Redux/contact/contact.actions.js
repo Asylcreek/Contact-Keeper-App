@@ -24,11 +24,11 @@ export const updateContact = (contact) => ({
     payload: contact,
 });
 
-export const filterContacts = (filters) => ({
+export const filterContacts = (filter) => ({
     type: ContactActionTypes.FILTER_CONTACTS,
-    payload: filters,
+    payload: filter,
 });
 
-export const clearFilters = () => ({
+export const clearFilter = () => ({
     type: ContactActionTypes.CLEAR_FILTER,
 });

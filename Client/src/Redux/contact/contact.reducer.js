@@ -24,6 +24,7 @@ const INITIAL_STATE = {
         },
     ],
     current: null,
+    filteredContacts: null,
 };
 
 const contactReducer = (currentState = INITIAL_STATE, action) => {
@@ -60,6 +61,18 @@ const contactReducer = (currentState = INITIAL_STATE, action) => {
             return {
                 ...currentState,
                 current: null,
+            };
+        case ContactActionTypes.FILTER_CONTACTS:
+            return {
+                ...currentState,
+                filteredContacts: currentState.contacts.filter((contact) =>
+                    contact.name.toLowerCase().includes(action.payload.toLowerCase())
+                ),
+            };
+        case ContactActionTypes.CLEAR_FILTER:
+            return {
+                ...currentState,
+                filteredContacts: null,
             };
         default:
             return currentState;
