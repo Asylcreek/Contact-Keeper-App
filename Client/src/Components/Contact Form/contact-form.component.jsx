@@ -1,16 +1,31 @@
-import { useState } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import { connect } from 'react-redux';
 import uniqid from 'uniqid';
 
-import { addContact } from '../../Redux/contact/contact.actions';
+import {
+  addContact,
+  clearCurrentContact,
+  updateContact,
+} from '../../Redux/contact/contact.actions';
 
-const ContactForm = ({ addContact }) => {
+const ContactForm = ({
+  addContact,
+  currentContact,
+  clearCurrentContact,
+  updateContact,
+}) => {
   const [contact, setContact] = useState({
     name: '',
     email: '',
     phoneNumber: '',
     type: 'personal',
   });
+
+  useEffect(() => {
+    if (currentContact) return setContact(currentContact);
+
+    setContact({ name: '', email: '', phoneNumber: '', type: 'personal' });
+  }, [currentContact]);
 
   const { name, email, phoneNumber, type } = contact;
 
@@ -20,9 +35,16 @@ const ContactForm = ({ addContact }) => {
     setContact((prevValues) => ({ ...prevValues, [name]: value }));
   };
 
+  const handleClear = () => {
+    clearCurrentContact();
+  };
+
   const handleSubmit = (event) => {
     //Prevent default form behavior
     event.preventDefault();
+
+    //Prevent submit if name || phoneNumber field is empty
+    if (!name || !phoneNumber) return;
 
     //Add the contact
     addContact({ id: uniqid(), ...contact });
@@ -37,8 +59,10 @@ const ContactForm = ({ addContact }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2 className="text-primary">Add Contact</h2>
+    <form>
+      <h2 className="text-primary">
+        {!currentContact ? 'Add Contact' : 'Update Contact'}
+      </h2>
       <input
         type="text"
         name="name"
@@ -78,18 +102,45 @@ const ContactForm = ({ addContact }) => {
       />{' '}
       Professional
       <div>
-        <input
-          type="submit"
-          value="Add Contact"
-          className="btn btn-primary btn-block"
-        />
+        {!currentContact ? (
+          <input
+            type="button"
+            value="Add Contact"
+            className="btn btn-primary btn-block"
+            onClick={handleSubmit}
+          />
+        ) : (
+          <Fragment>
+            <input
+              type="button"
+              value="Update Contact"
+              className="btn btn-primary btn-block"
+              onClick={() => {
+                updateContact(contact);
+                clearCurrentContact();
+              }}
+            />
+            <input
+              type="button"
+              value="Clear"
+              className="btn btn-light btn-block"
+              onClick={handleClear}
+            />
+          </Fragment>
+        )}
       </div>
     </form>
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  addContact: (contact) => dispatch(addContact(contact)),
+const mapStateToProps = (state) => ({
+  currentContact: state.contacts.current,
 });
 
-export default connect(null, mapDispatchToProps)(ContactForm);
+const mapDispatchToProps = (dispatch) => ({
+  addContact: (contact) => dispatch(addContact(contact)),
+  clearCurrentContact: () => dispatch(clearCurrentContact()),
+  updateContact: (contact) => dispatch(updateContact(contact)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);

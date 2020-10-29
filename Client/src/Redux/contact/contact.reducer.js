@@ -33,6 +33,15 @@ const contactReducer = (currentState = INITIAL_STATE, action) => {
                 ...currentState,
                 contacts: [...currentState.contacts, action.payload],
             };
+        case ContactActionTypes.UPDATE_CONTACT:
+            return {
+                ...currentState,
+                contacts: [
+                    ...currentState.contacts.map((contact) =>
+                        contact.id !== action.payload.id ? contact : {...action.payload }
+                    ),
+                ],
+            };
         case ContactActionTypes.DELETE_CONTACT:
             return {
                 ...currentState,
