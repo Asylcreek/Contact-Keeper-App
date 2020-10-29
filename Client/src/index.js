@@ -15,8 +15,8 @@ ReactDOM.render(
       <React.StrictMode>
         <ScrollToTop />
         <App />
-      </React.StrictMode>
-    </BrowserRouter>
+      </React.StrictMode>{' '}
+    </BrowserRouter>{' '}
   </Provider>,
   document.getElementById('root')
 );

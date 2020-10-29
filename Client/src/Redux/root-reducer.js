@@ -1,5 +1,11 @@
 import { combineReducers } from 'redux';
 
-const rootReducer = combineReducers({});
+import appReducer from './app/app.reducer';
+import contactReducer from './contact/contact.reducer';
+
+const rootReducer = combineReducers({
+    app: appReducer,
+    contacts: contactReducer,
+});
 
 export default rootReducer;
