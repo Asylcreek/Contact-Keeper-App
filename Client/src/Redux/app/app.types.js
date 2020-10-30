@@ -1,6 +1,6 @@
 const AppActionTypes = {
     SET_ALERT: 'SET_ALERT',
-    REMOVER_ALERT: 'REMOVER_ALERT',
+    REMOVE_FIRST_ALERT: 'REMOVE_FIRST_ALERT',
 };
 
 export default AppActionTypes;
