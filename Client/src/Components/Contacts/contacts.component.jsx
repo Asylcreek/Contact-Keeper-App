@@ -5,12 +5,13 @@ import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import ContactItem from '../Contact Item/contact-item.component';
 
 const Contacts = ({ contacts, filteredContacts }) => {
+  console.log(filteredContacts);
   return (
     <Fragment>
       <TransitionGroup>
         {(filteredContacts ? filteredContacts : contacts).length ? (
           (filteredContacts ? filteredContacts : contacts).map((contact) => (
-            <CSSTransition key={contact.id} timeout={200} classNames="item">
+            <CSSTransition key={contact._id} timeout={200} classNames="item">
               <ContactItem contact={contact} />
             </CSSTransition>
           ))

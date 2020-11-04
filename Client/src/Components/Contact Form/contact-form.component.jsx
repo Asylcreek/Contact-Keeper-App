@@ -1,9 +1,8 @@
 import { useState, useEffect, Fragment } from 'react';
 import { connect } from 'react-redux';
-import uniqid from 'uniqid';
 
 import {
-  addContact,
+  addContactStart,
   clearCurrentContact,
   updateContact,
 } from '../../Redux/contact/contact.actions';
@@ -47,7 +46,7 @@ const ContactForm = ({
     if (!name || !phoneNumber) return;
 
     //Add the contact
-    addContact({ id: uniqid(), ...contact });
+    addContact({ ...contact });
 
     //Reset input state
     setContact({
@@ -138,7 +137,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  addContact: (contact) => dispatch(addContact(contact)),
+  addContact: (contact) => dispatch(addContactStart(contact)),
   clearCurrentContact: () => dispatch(clearCurrentContact()),
   updateContact: (contact) => dispatch(updateContact(contact)),
 });

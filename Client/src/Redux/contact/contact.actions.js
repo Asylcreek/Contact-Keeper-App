@@ -1,8 +1,17 @@
 import ContactActionTypes from './contact.types';
 
-export const addContact = (contact) => ({
-    type: ContactActionTypes.ADD_CONTACT,
+export const addContactStart = (contact) => ({
+    type: ContactActionTypes.ADD_CONTACT_START,
     payload: contact,
+});
+
+export const addContactSuccess = (contact) => ({
+    type: ContactActionTypes.ADD_CONTACT_SUCCESS,
+    payload: contact,
+});
+
+export const addContactFailure = () => ({
+    type: ContactActionTypes.ADD_CONTACT_FAILURE,
 });
 
 export const deleteContact = (id) => ({
