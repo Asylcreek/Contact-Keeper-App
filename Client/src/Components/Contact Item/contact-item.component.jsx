@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import {
   clearCurrentContact,
-  deleteContact,
+  deleteContactStart,
   setCurrentContact,
 } from '../../Redux/contact/contact.actions';
 
@@ -12,11 +12,11 @@ const ContactItem = ({
   setCurrentContact,
   clearCurrentContact,
 }) => {
-  const { id, name, email, phoneNumber, type } = contact;
+  const { _id, name, email, phoneNumber, type } = contact;
 
   const handleDelete = () => {
     //Delete the contact
-    deleteContact(id);
+    deleteContact(_id);
 
     //Set current contact to null, for situations where the deleted contact is the current contact
     clearCurrentContact();
@@ -65,7 +65,7 @@ const ContactItem = ({
 const mapDispatchToProps = (dispatch) => ({
   setCurrentContact: (contact) => dispatch(setCurrentContact(contact)),
   clearCurrentContact: () => dispatch(clearCurrentContact()),
-  deleteContact: (id) => dispatch(deleteContact(id)),
+  deleteContact: (id) => dispatch(deleteContactStart(id)),
 });
 
 export default connect(null, mapDispatchToProps)(ContactItem);

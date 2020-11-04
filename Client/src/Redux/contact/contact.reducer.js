@@ -18,7 +18,7 @@ const contactReducer = (currentState = INITIAL_STATE, action) => {
         case ContactActionTypes.ADD_CONTACT_SUCCESS:
             return {
                 ...currentState,
-                contacts: [...currentState.contacts, action.payload],
+                contacts: [action.payload, ...currentState.contacts],
             };
         case ContactActionTypes.UPDATE_CONTACT:
             return {
@@ -29,12 +29,12 @@ const contactReducer = (currentState = INITIAL_STATE, action) => {
                     ),
                 ],
             };
-        case ContactActionTypes.DELETE_CONTACT:
+        case ContactActionTypes.DELETE_CONTACT_SUCCESS:
             return {
                 ...currentState,
                 contacts: [
                     ...currentState.contacts.filter(
-                        (contact) => contact.id !== action.payload
+                        (contact) => contact._id !== action.payload
                     ),
                 ],
             };
