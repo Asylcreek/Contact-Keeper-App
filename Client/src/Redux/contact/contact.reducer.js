@@ -4,10 +4,17 @@ const INITIAL_STATE = {
     contacts: [],
     current: null,
     filteredContacts: null,
+    loading: true,
 };
 
 const contactReducer = (currentState = INITIAL_STATE, action) => {
     switch (action.type) {
+        case ContactActionTypes.GET_CONTACTS_SUCCESS:
+            return {
+                ...currentState,
+                contacts: [...action.payload],
+                loading: false,
+            };
         case ContactActionTypes.ADD_CONTACT_SUCCESS:
             return {
                 ...currentState,
@@ -53,6 +60,7 @@ const contactReducer = (currentState = INITIAL_STATE, action) => {
                 ...currentState,
                 filteredContacts: null,
             };
+        case ContactActionTypes.GET_CONTACTS_FAILURE:
         case ContactActionTypes.ADD_CONTACT_FAILURE:
             return {
                 ...currentState,

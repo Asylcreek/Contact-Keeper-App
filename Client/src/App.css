@@ -386,6 +386,15 @@ table th {
 }
 
 
+/* Contacts Container */
+
+.contacts-container {
+    overflow-y: auto;
+    max-height: 80vh;
+    scrollbar-width: thin;
+}
+
+
 /* Navbar */
 
 .navbar {

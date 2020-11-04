@@ -14,6 +14,19 @@ export const addContactFailure = () => ({
     type: ContactActionTypes.ADD_CONTACT_FAILURE,
 });
 
+export const getAllContactsStart = () => ({
+    type: ContactActionTypes.GET_CONTACTS_START,
+});
+
+export const getAllContactsSuccess = (contacts) => ({
+    type: ContactActionTypes.GET_CONTACTS_SUCCESS,
+    payload: contacts,
+});
+
+export const getAllContactsFailure = () => ({
+    type: ContactActionTypes.GET_CONTACTS_FAILURE,
+});
+
 export const deleteContact = (id) => ({
     type: ContactActionTypes.DELETE_CONTACT,
     payload: id,
