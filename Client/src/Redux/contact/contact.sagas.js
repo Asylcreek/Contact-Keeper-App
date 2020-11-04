@@ -10,6 +10,8 @@ import {
     getAllContactsFailure,
     deleteContactSuccess,
     deleteContactFailure,
+    updateContactFailure,
+    updateContactSuccess,
 } from './contact.actions';
 
 import { setAlert } from '../app/app.actions';
@@ -44,6 +46,16 @@ export function* deleteContact({ payload }) {
     }
 }
 
+export function* updateContact({ payload }) {
+    try {
+        const response = yield axios.patch(`api/contacts/${payload._id}`, payload);
+        yield put(updateContactSuccess(response.data.data.data));
+    } catch (err) {
+        yield put(setAlert({ message: err.response.data.message, type: 'danger' }));
+        yield put(updateContactFailure());
+    }
+}
+
 export function* onGetAllContactsStart() {
     yield takeLatest(ContactActionTypes.GET_CONTACTS_START, getAllContacts);
 }
@@ -56,10 +68,15 @@ export function* onDeleteContactStart() {
     yield takeLatest(ContactActionTypes.DELETE_CONTACT_START, deleteContact);
 }
 
+export function* onUpdateContactStart() {
+    yield takeLatest(ContactActionTypes.UPDATE_CONTACT_START, updateContact);
+}
+
 export function* contactSagas() {
     yield all([
         call(onGetAllContactsStart),
         call(onAddContactStart),
         call(onDeleteContactStart),
+        call(onUpdateContactStart),
     ]);
 }

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import {
   addContactStart,
   clearCurrentContact,
-  updateContact,
+  updateContactStart,
 } from '../../Redux/contact/contact.actions';
 
 const ContactForm = ({
@@ -139,7 +139,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   addContact: (contact) => dispatch(addContactStart(contact)),
   clearCurrentContact: () => dispatch(clearCurrentContact()),
-  updateContact: (contact) => dispatch(updateContact(contact)),
+  updateContact: (contact) => dispatch(updateContactStart(contact)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);

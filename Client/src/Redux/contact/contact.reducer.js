@@ -20,12 +20,12 @@ const contactReducer = (currentState = INITIAL_STATE, action) => {
                 ...currentState,
                 contacts: [action.payload, ...currentState.contacts],
             };
-        case ContactActionTypes.UPDATE_CONTACT:
+        case ContactActionTypes.UPDATE_CONTACT_SUCCESS:
             return {
                 ...currentState,
                 contacts: [
                     ...currentState.contacts.map((contact) =>
-                        contact.id !== action.payload.id ? contact : {...action.payload }
+                        contact._id !== action.payload._id ? contact : {...action.payload }
                     ),
                 ],
             };
@@ -62,6 +62,8 @@ const contactReducer = (currentState = INITIAL_STATE, action) => {
             };
         case ContactActionTypes.GET_CONTACTS_FAILURE:
         case ContactActionTypes.ADD_CONTACT_FAILURE:
+        case ContactActionTypes.DELETE_CONTACT_FAILURE:
+        case ContactActionTypes.UPDATE_CONTACT_FAILURE:
             return {
                 ...currentState,
                 current: null,

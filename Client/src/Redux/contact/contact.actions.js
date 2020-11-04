@@ -41,6 +41,19 @@ export const deleteContactFailure = () => ({
     type: ContactActionTypes.DELETE_CONTACT_FAILURE,
 });
 
+export const updateContactStart = (contact) => ({
+    type: ContactActionTypes.UPDATE_CONTACT_START,
+    payload: contact,
+});
+
+export const updateContactSuccess = (contact) => ({
+    type: ContactActionTypes.UPDATE_CONTACT_SUCCESS,
+    payload: contact,
+});
+export const updateContactFailure = () => ({
+    type: ContactActionTypes.UPDATE_CONTACT_START,
+});
+
 export const setCurrentContact = (contact) => ({
     type: ContactActionTypes.SET_CURRENT_CONTACT,
     payload: contact,
@@ -48,11 +61,6 @@ export const setCurrentContact = (contact) => ({
 
 export const clearCurrentContact = () => ({
     type: ContactActionTypes.CLEAR_CURRENT_CONTACT,
-});
-
-export const updateContact = (contact) => ({
-    type: ContactActionTypes.UPDATE_CONTACT,
-    payload: contact,
 });
 
 export const filterContacts = (filter) => ({
