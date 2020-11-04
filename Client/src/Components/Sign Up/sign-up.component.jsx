@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { setAlert } from '../../Redux/app/app.actions';
 import { emailSignUpStart } from '../../Redux/user/user.actions';
 
-const SignUp = ({ emailSignUpStart }) => {
+const SignUp = ({ emailSignUpStart, history }) => {
   const [newUser, setNewUser] = useState({
     name: '',
     email: '',
@@ -27,6 +27,15 @@ const SignUp = ({ emailSignUpStart }) => {
       return setAlert({ message: 'Passwords do not match', type: 'danger' });
 
     emailSignUpStart(newUser);
+
+    setNewUser({
+      name: '',
+      email: '',
+      password: '',
+      passwordConfirm: '',
+    });
+
+    window.setTimeout(() => history.push('/'), 1500);
   };
 
   return (

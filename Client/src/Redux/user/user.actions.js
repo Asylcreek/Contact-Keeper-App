@@ -1,5 +1,9 @@
 import UserActionTypes from './user.types';
 
+export const checkUserSessionStart = () => ({
+    type: UserActionTypes.CHECK_USER_SESSION,
+});
+
 export const emailSignInStart = ({ email, password }) => ({
     type: UserActionTypes.EMAIL_SIGN_IN_START,
     payload: { email, password },
@@ -10,9 +14,8 @@ export const signInSuccess = (user) => ({
     payload: user,
 });
 
-export const signInFailure = (message) => ({
+export const signInFailure = () => ({
     type: UserActionTypes.SIGN_IN_FAILURE,
-    payload: message,
 });
 
 export const emailSignUpStart = (registerObj) => ({
@@ -25,9 +28,8 @@ export const emailSignUpSuccess = (user) => ({
     payload: user,
 });
 
-export const emailSignUpFailure = (message) => ({
+export const emailSignUpFailure = () => ({
     type: UserActionTypes.EMAIL_SIGN_UP_FAILURE,
-    payload: message,
 });
 
 export const signOutStart = () => ({

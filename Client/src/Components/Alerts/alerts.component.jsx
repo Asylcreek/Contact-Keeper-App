@@ -4,13 +4,18 @@ import { removeFirstAlert } from '../../Redux/app/app.actions';
 
 const Alerts = ({ alerts, removeFirstAlert }) => {
   useEffect(() => {
-    if (alerts.length) return setTimeout(removeFirstAlert, 5000);
+    let timeOut;
+    if (alerts.length) {
+      timeOut = setTimeout(removeFirstAlert, 5000);
+    }
+
+    return () => clearTimeout(timeOut);
   }, [alerts, removeFirstAlert]);
 
   return (
     alerts.length > 0 &&
-    alerts.map((alert) => (
-      <div key={alert.id} className={`alert alert-${alert.type}`}>
+    alerts.map((alert, i) => (
+      <div key={i} className={`alert alert-${alert.type}`}>
         <i className="fas fa-info-circle" /> {alert.message}
       </div>
     ))

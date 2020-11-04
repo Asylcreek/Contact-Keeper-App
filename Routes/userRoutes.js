@@ -12,6 +12,10 @@ router.post('/login', authController.login);
 
 router.use(authController.protect);
 
+router.get('/logout', authController.logout);
+
+router.get('/my-account', userController.getMe, userController.getUser);
+
 router.use('/:userId/contacts', contactRouter);
 
 router.use(authController.restrictTo('admin'));
