@@ -11,7 +11,8 @@ import {
     signOutFailure,
     signOutSuccess,
 } from './user.actions';
-import { setAlert } from '../app/app.actions';
+
+import { loadFinish, setAlert } from '../app/app.actions';
 
 export function* emailSignUp({ payload }) {
     try {
@@ -35,8 +36,10 @@ export function* checkUserSession() {
         const response = yield axios.get('/api/users/my-account');
 
         yield put(signInSuccess({...response.data.data.data }));
+        yield put(loadFinish());
     } catch (err) {
         yield put(signInFailure());
+        yield put(loadFinish());
     }
 }
 

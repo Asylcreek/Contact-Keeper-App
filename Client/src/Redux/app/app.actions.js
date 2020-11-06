@@ -8,3 +8,7 @@ export const setAlert = ({ message, type }) => ({
 export const removeFirstAlert = () => ({
     type: AppActionTypes.REMOVE_FIRST_ALERT,
 });
+
+export const loadFinish = () => ({
+    type: AppActionTypes.LOAD_FINISH,
+});

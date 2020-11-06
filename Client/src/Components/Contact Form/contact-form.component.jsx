@@ -1,6 +1,8 @@
 import { useState, useEffect, Fragment } from 'react';
 import { connect } from 'react-redux';
 
+import { setAlert } from '../../Redux/app/app.actions';
+
 import {
   addContactStart,
   clearCurrentContact,
@@ -12,6 +14,7 @@ const ContactForm = ({
   currentContact,
   clearCurrentContact,
   updateContact,
+  setAlert,
 }) => {
   const [contact, setContact] = useState({
     name: '',
@@ -38,12 +41,13 @@ const ContactForm = ({
     clearCurrentContact();
   };
 
-  const handleSubmit = (event) => {
-    //Prevent default form behavior
-    event.preventDefault();
-
+  const handleSubmit = () => {
     //Prevent submit if name || phoneNumber field is empty
-    if (!name || !phoneNumber) return;
+    if (!name || !phoneNumber)
+      return setAlert({
+        message: 'Name or Phone number cannot be empty',
+        type: 'danger',
+      });
 
     //Add the contact
     addContact({ ...contact });
@@ -140,6 +144,7 @@ const mapDispatchToProps = (dispatch) => ({
   addContact: (contact) => dispatch(addContactStart(contact)),
   clearCurrentContact: () => dispatch(clearCurrentContact()),
   updateContact: (contact) => dispatch(updateContactStart(contact)),
+  setAlert: ({ message, type }) => dispatch(setAlert({ message, type })),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);

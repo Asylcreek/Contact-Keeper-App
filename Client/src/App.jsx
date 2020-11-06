@@ -1,6 +1,9 @@
 import { Fragment, useEffect } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
+import Loader from 'react-loader-spinner';
+
 import './App.css';
 
 import Navbar from './Components/Navbar/navbar.component';
@@ -13,10 +16,26 @@ import Alerts from './Components/Alerts/alerts.component';
 
 import { checkUserSessionStart } from './Redux/user/user.actions';
 
-function App({ checkUserSession, user }) {
+function App({ checkUserSession, user, appLoading }) {
   useEffect(() => {
     checkUserSession();
   }, [checkUserSession]);
+
+  if (appLoading)
+    return (
+      <Loader
+        style={{
+          height: '100vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+        type="Oval"
+        color="#00BFFF"
+        height={80}
+        width={80}
+      />
+    );
 
   return (
     <Fragment>
@@ -50,6 +69,7 @@ function App({ checkUserSession, user }) {
 
 const mapStateToProps = (state) => ({
   user: state.user.user,
+  appLoading: state.app.loading,
 });
 
 const mapDispatchToProps = (dispatch) => ({
