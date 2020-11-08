@@ -10,11 +10,13 @@ const appReducer = (currentState = INITIAL_STATE, action) => {
         case AppActionTypes.SET_ALERT:
             return {
                 ...currentState,
-                alerts: [...currentState.alerts, {...action.payload }],
+                alerts: [{...action.payload }, ...currentState.alerts],
             };
-        case AppActionTypes.REMOVE_FIRST_ALERT:
+        case AppActionTypes.REMOVE_OLDEST_ALERT:
             return {
-                alerts: currentState.alerts.filter((alert, i) => i !== 0),
+                alerts: currentState.alerts.filter(
+                    (alert, i) => i !== currentState.alerts.length - 1
+                ),
             };
         case AppActionTypes.LOAD_FINISH:
             return {

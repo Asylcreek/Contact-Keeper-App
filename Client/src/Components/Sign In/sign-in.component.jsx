@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { setAlert } from '../../Redux/app/app.actions';
 import { emailSignInStart } from '../../Redux/user/user.actions';
 
-const SignUp = ({ emailSignInStart, setAlert }) => {
+const SignUp = ({ emailSignInStart, loading }) => {
   const [user, setUser] = useState({
     email: '',
     password: '',
@@ -50,15 +50,17 @@ const SignUp = ({ emailSignInStart, setAlert }) => {
             onChange={handleChange}
           />
         </div>
-        <input
-          type="submit"
-          value="Login"
-          className="btn btn-primary btn-block"
-        />
+        <button type="submit" className="btn btn-primary btn-block">
+          Login {loading && <span className="loading"></span>}
+        </button>
       </form>
     </div>
   );
 };
+
+const mapStateToProps = (state) => ({
+  loading: state.user.signInLoading,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   emailSignInStart: ({ email, password }) =>
@@ -66,4 +68,4 @@ const mapDispatchToProps = (dispatch) => ({
   setAlert: ({ message, type }) => dispatch(setAlert({ message, type })),
 });
 
-export default connect(null, mapDispatchToProps)(SignUp);
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

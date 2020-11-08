@@ -23,6 +23,8 @@ const ContactForm = ({
     type: 'personal',
   });
 
+  const [number, setNumber] = useState(0);
+
   useEffect(() => {
     if (currentContact) return setContact(currentContact);
 
@@ -42,10 +44,11 @@ const ContactForm = ({
   };
 
   const handleSubmit = () => {
+    setNumber((prev) => prev + 1);
     //Prevent submit if name || phoneNumber field is empty
     if (!name || !phoneNumber)
       return setAlert({
-        message: 'Name or Phone number cannot be empty',
+        message: `Name or Phone number cannot be empty ${number}`,
         type: 'danger',
       });
 
@@ -106,12 +109,13 @@ const ContactForm = ({
       Professional
       <div>
         {!currentContact ? (
-          <input
+          <button
             type="button"
-            value="Add Contact"
             className="btn btn-primary btn-block"
             onClick={handleSubmit}
-          />
+          >
+            Add Contact
+          </button>
         ) : (
           <Fragment>
             <input

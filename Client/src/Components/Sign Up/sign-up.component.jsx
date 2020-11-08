@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { setAlert } from '../../Redux/app/app.actions';
 import { emailSignUpStart } from '../../Redux/user/user.actions';
 
-const SignUp = ({ emailSignUpStart, history }) => {
+const SignUp = ({ emailSignUpStart, loading }) => {
   const [newUser, setNewUser] = useState({
     name: '',
     email: '',
@@ -34,8 +34,6 @@ const SignUp = ({ emailSignUpStart, history }) => {
       password: '',
       passwordConfirm: '',
     });
-
-    window.setTimeout(() => history.push('/'), 1500);
   };
 
   return (
@@ -85,19 +83,21 @@ const SignUp = ({ emailSignUpStart, history }) => {
             onChange={handleChange}
           />
         </div>
-        <input
-          type="submit"
-          value="Register"
-          className="btn btn-primary btn-block"
-        />
+        <button type="submit" className="btn btn-primary btn-block">
+          Register {loading && <span className="loading"></span>}
+        </button>
       </form>
     </div>
   );
 };
+
+const mapStateToProps = (state) => ({
+  loading: state.user.signUpLoading,
+});
 
 const mapDispatchToProps = (dispatch) => ({
   emailSignUpStart: (registerObj) => dispatch(emailSignUpStart(registerObj)),
   setAlert: ({ message, type }) => dispatch(setAlert({ message, type })),
 });
 
-export default connect(null, mapDispatchToProps)(SignUp);
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

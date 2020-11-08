@@ -5,8 +5,8 @@ export const setAlert = ({ message, type }) => ({
     payload: { message, type },
 });
 
-export const removeFirstAlert = () => ({
-    type: AppActionTypes.REMOVE_FIRST_ALERT,
+export const removeOldestAlert = () => ({
+    type: AppActionTypes.REMOVE_OLDEST_ALERT,
 });
 
 export const loadFinish = () => ({
