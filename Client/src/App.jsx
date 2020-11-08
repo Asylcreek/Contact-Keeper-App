@@ -28,18 +28,20 @@ function App({ checkUserSession, user, appLoading }) {
 
   if (appLoading)
     return (
-      <Loader
+      <div
         style={{
           height: '100vh',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
+          flexDirection: 'column',
         }}
-        type="Oval"
-        color="#00BFFF"
-        height={80}
-        width={80}
-      />
+      >
+        <p style={{ marginBottom: '1rem' }}>
+          Please wait while the app is loading
+        </p>
+        <Loader type="Oval" color="#00BFFF" height={80} width={80} />
+      </div>
     );
 
   return (

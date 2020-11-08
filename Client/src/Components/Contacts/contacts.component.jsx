@@ -13,6 +13,7 @@ const Contacts = ({
   filteredContacts,
   getAllContacts,
   contactsLoading,
+  totalContacts,
 }) => {
   useEffect(() => {
     getAllContacts();
@@ -36,13 +37,39 @@ const Contacts = ({
           width={80}
         />
       ) : (filteredContacts ?? contacts).length ? (
-        <TransitionGroup className="contacts-container">
-          {(filteredContacts ?? contacts).map((contact) => (
-            <CSSTransition key={contact._id} timeout={200} classNames="item">
-              <ContactItem contact={contact} />
-            </CSSTransition>
-          ))}
-        </TransitionGroup>
+        <Fragment>
+          {' '}
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              marginBottom: '1rem',
+            }}
+          >
+            {filteredContacts ? (
+              <Fragment>
+                <span>
+                  <strong>Search Results:</strong>
+                </span>
+                <span>{filteredContacts?.length}</span>
+              </Fragment>
+            ) : (
+              <Fragment>
+                <span>
+                  <strong>Total Contacts:</strong>
+                </span>
+                <span>{totalContacts}</span>
+              </Fragment>
+            )}
+          </div>
+          <TransitionGroup className="contacts-container">
+            {(filteredContacts ?? contacts).map((contact) => (
+              <CSSTransition key={contact._id} timeout={200} classNames="item">
+                <ContactItem contact={contact} />
+              </CSSTransition>
+            ))}
+          </TransitionGroup>
+        </Fragment>
       ) : (
         <h4 style={{ alignSelf: 'center' }}>
           {filteredContacts
@@ -58,6 +85,7 @@ const mapStateToProps = (state) => ({
   contacts: state.contacts.contacts,
   filteredContacts: state.contacts.filteredContacts,
   contactsLoading: state.contacts.loading,
+  totalContacts: state.contacts.totalContacts,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -19,7 +19,7 @@ import { setAlert } from '../app/app.actions';
 export function* getAllContacts() {
     try {
         const response = yield axios.get('/api/contacts/my-contacts');
-        yield put(getAllContactsSuccess(response.data.data.data));
+        yield put(getAllContactsSuccess(response.data));
     } catch (err) {
         yield put(setAlert({ message: err.response.data.message, type: 'danger' }));
         yield put(getAllContactsFailure());

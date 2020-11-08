@@ -2,6 +2,7 @@ import ContactActionTypes from './contact.types';
 
 const INITIAL_STATE = {
     contacts: [],
+    totalContacts: 0,
     current: null,
     filteredContacts: null,
     loading: true,
@@ -12,13 +13,15 @@ const contactReducer = (currentState = INITIAL_STATE, action) => {
         case ContactActionTypes.GET_CONTACTS_SUCCESS:
             return {
                 ...currentState,
-                contacts: [...action.payload],
+                contacts: [...action.payload.data.data],
+                totalContacts: action.payload.totalDocuments,
                 loading: false,
             };
         case ContactActionTypes.ADD_CONTACT_SUCCESS:
             return {
                 ...currentState,
                 contacts: [action.payload, ...currentState.contacts],
+                totalContacts: currentState.totalContacts + 1,
             };
         case ContactActionTypes.UPDATE_CONTACT_SUCCESS:
             return {
@@ -37,6 +40,7 @@ const contactReducer = (currentState = INITIAL_STATE, action) => {
                         (contact) => contact._id !== action.payload
                     ),
                 ],
+                totalContacts: currentState.totalContacts - 1,
             };
         case ContactActionTypes.SET_CURRENT_CONTACT:
             return {
@@ -64,6 +68,7 @@ const contactReducer = (currentState = INITIAL_STATE, action) => {
             return {
                 ...currentState,
                 contacts: [],
+                totalContacts: 0,
             };
         case ContactActionTypes.GET_CONTACTS_FAILURE:
         case ContactActionTypes.ADD_CONTACT_FAILURE:
