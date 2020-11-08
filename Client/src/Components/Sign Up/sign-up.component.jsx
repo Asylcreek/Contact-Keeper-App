@@ -48,6 +48,7 @@ const SignUp = ({ emailSignUpStart, loading }) => {
             type="text"
             name="name"
             value={name}
+            autoFocus
             required
             onChange={handleChange}
           />

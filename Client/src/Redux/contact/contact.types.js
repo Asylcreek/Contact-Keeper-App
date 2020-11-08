@@ -15,6 +15,7 @@ const ContactActionTypes = {
     CLEAR_CURRENT_CONTACT: 'CLEAR_CURRENT_CONTACT',
     FILTER_CONTACTS: 'FILTER_CONTACTS',
     CLEAR_FILTER: 'CLEAR_FILTER',
+    CLEAR_CONTACTS: 'CLEAR_CONTACTS',
 };
 
 export default ContactActionTypes;

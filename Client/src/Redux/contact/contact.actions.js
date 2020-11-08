@@ -71,3 +71,7 @@ export const filterContacts = (filter) => ({
 export const clearFilter = () => ({
     type: ContactActionTypes.CLEAR_FILTER,
 });
+
+export const clearContacts = () => ({
+    type: ContactActionTypes.CLEAR_CONTACTS,
+});

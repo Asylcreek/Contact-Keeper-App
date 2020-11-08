@@ -36,6 +36,7 @@ const SignUp = ({ emailSignInStart, loading }) => {
             type="email"
             name="email"
             value={email}
+            autoFocus
             required
             onChange={handleChange}
           />

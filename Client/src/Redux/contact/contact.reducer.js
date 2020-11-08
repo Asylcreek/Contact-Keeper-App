@@ -60,6 +60,11 @@ const contactReducer = (currentState = INITIAL_STATE, action) => {
                 ...currentState,
                 filteredContacts: null,
             };
+        case ContactActionTypes.CLEAR_CONTACTS:
+            return {
+                ...currentState,
+                contacts: [],
+            };
         case ContactActionTypes.GET_CONTACTS_FAILURE:
         case ContactActionTypes.ADD_CONTACT_FAILURE:
         case ContactActionTypes.DELETE_CONTACT_FAILURE:

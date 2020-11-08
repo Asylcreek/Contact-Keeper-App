@@ -13,6 +13,7 @@ import {
 } from './user.actions';
 
 import { loadFinish, setAlert } from '../app/app.actions';
+import { clearContacts } from '../contact/contact.actions';
 
 export function* emailSignUp({ payload }) {
     try {
@@ -21,7 +22,7 @@ export function* emailSignUp({ payload }) {
         yield put(emailSignUpSuccess({...response.data.data.user }));
         yield put(
             setAlert({
-                message: 'Sign up successful.',
+                message: 'Sign up successful',
                 type: 'success',
             })
         );
@@ -44,10 +45,10 @@ export function* checkUserSession() {
 }
 
 export function* logInStart({ payload }) {
-    const { email, password } = payload;
     try {
-        const response = yield axios.post('/api/users/login', { email, password });
+        const response = yield axios.post('/api/users/login', payload);
         yield put(signInSuccess(response.data.data.user));
+        yield put(setAlert({ message: 'Login successful', type: 'success' }));
     } catch (err) {
         yield put(signInFailure());
         yield put(setAlert({ message: err.response.data.message, type: 'danger' }));
@@ -58,7 +59,8 @@ export function* signOut() {
     try {
         yield axios.get('/api/users/logout');
         yield put(signOutSuccess());
-        window.setTimeout(() => window.location.assign('/'), 1500);
+        yield put(clearContacts());
+        yield put(setAlert({ message: 'Sign out successful', type: 'success' }));
     } catch (err) {
         yield put(signOutFailure());
     }

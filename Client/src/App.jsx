@@ -1,5 +1,5 @@
 import { Fragment, useEffect } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route, Redirect, useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 import Loader from 'react-loader-spinner';
@@ -16,7 +16,12 @@ import Alerts from './Components/Alerts/alerts.component';
 
 import { checkUserSessionStart } from './Redux/user/user.actions';
 
+//This provides access to the history object created by react-router-dom
+export let history;
+
 function App({ checkUserSession, user, appLoading }) {
+  history = useHistory();
+
   useEffect(() => {
     checkUserSession();
   }, [checkUserSession]);

@@ -8,7 +8,7 @@ const Alerts = ({ alerts, removeOldestAlert }) => {
   useEffect(() => {
     let timeOut;
     if (alerts.length) {
-      timeOut = setTimeout(removeOldestAlert, 5000);
+      timeOut = setTimeout(removeOldestAlert, 3500);
     }
 
     return () => clearTimeout(timeOut);

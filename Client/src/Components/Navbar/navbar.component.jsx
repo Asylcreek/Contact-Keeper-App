@@ -7,9 +7,11 @@ import { signOutStart } from '../../Redux/user/user.actions';
 const Navbar = ({ user, signOutStart }) => {
   return (
     <div className="navbar bg-primary">
-      <h1>
-        <i className="fas fa-id-card-alt" /> Contact Keeper
-      </h1>
+      <Link to="/">
+        <h1>
+          <i className="fas fa-id-card-alt" /> Contact Keeper
+        </h1>
+      </Link>
       <ul>
         {user && <li>Hello, {user.name.split(' ')[1]}</li>}
         {!user ? (
@@ -26,7 +28,7 @@ const Navbar = ({ user, signOutStart }) => {
           </Fragment>
         ) : (
           <li onClick={() => signOutStart()}>
-            <Link to="/logout">
+            <Link to="/?action=logout">
               <i className="fas fa-sign-out-alt" />{' '}
               <span className="hide-sm">Logout</span>
             </Link>

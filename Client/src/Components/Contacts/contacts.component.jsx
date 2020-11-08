@@ -19,7 +19,14 @@ const Contacts = ({
   }, [getAllContacts]);
 
   return (
-    <Fragment>
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'stretch',
+        flexDirection: 'column',
+      }}
+    >
       {contactsLoading ? (
         <Loader
           style={{ display: 'flex', justifyContent: 'center' }}
@@ -37,13 +44,13 @@ const Contacts = ({
           ))}
         </TransitionGroup>
       ) : (
-        <h4>
+        <h4 style={{ alignSelf: 'center' }}>
           {filteredContacts
             ? 'No contacts with that name'
             : 'Please add a contact'}
         </h4>
       )}
-    </Fragment>
+    </div>
   );
 };
 
