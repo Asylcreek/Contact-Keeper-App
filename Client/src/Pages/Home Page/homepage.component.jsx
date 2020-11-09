@@ -50,11 +50,11 @@ const HomePage = ({
               {!loadingMoreContacts ? (
                 moreContacts ? (
                   <span onClick={() => loadMoreContacts(currentPage + 1)}>
-                    Load More
+                    Show Older
                   </span>
                 ) : (
                   <span onClick={() => loadLessContacts(currentPage)}>
-                    Show Less
+                    Show Newer
                   </span>
                 )
               ) : (

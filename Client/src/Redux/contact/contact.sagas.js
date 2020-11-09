@@ -34,6 +34,9 @@ export function* addContact({ payload }) {
     try {
         const response = yield axios.post('/api/contacts', payload);
         yield put(addContactSuccess(response.data.data.data));
+
+        //Refresh the totalContacts and totalResults
+        yield getAllContacts();
     } catch (err) {
         yield put(setAlert({ message: err.response.data.message, type: 'danger' }));
         yield put(addContactFailure());
@@ -44,6 +47,9 @@ export function* deleteContact({ payload }) {
     try {
         yield axios.delete(`/api/contacts/${payload}`);
         yield put(deleteContactSuccess(payload));
+
+        //Refresh the totalContacts and totalResults
+        yield getAllContacts();
     } catch (err) {
         yield put(setAlert({ message: err.response.data.message, type: 'danger' }));
         yield put(deleteContactFailure());

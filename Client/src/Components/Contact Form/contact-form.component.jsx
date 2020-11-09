@@ -1,5 +1,6 @@
 import { useState, useEffect, Fragment } from 'react';
 import { connect } from 'react-redux';
+import Loader from 'react-loader-spinner';
 
 import { setAlert } from '../../Redux/app/app.actions';
 
@@ -15,6 +16,7 @@ const ContactForm = ({
   clearCurrentContact,
   updateContact,
   setAlert,
+  addContactLoading,
 }) => {
   const [contact, setContact] = useState({
     name: '',
@@ -106,13 +108,25 @@ const ContactForm = ({
       Professional
       <div>
         {!currentContact ? (
-          <button
-            type="button"
-            className="btn btn-primary btn-block"
-            onClick={handleSubmit}
-          >
-            Add Contact
-          </button>
+          !addContactLoading ? (
+            <button
+              type="button"
+              className="btn btn-primary btn-block"
+              onClick={handleSubmit}
+            >
+              Add Contact
+            </button>
+          ) : (
+            <div className="btn btn-primary btn-block u-flex-x-y-center">
+              <Loader
+                className="u-flex-x-y-center"
+                type="Oval"
+                color="#f4f4f4"
+                height={20}
+                width={20}
+              />
+            </div>
+          )
         ) : (
           <Fragment>
             <input
@@ -139,6 +153,7 @@ const ContactForm = ({
 
 const mapStateToProps = (state) => ({
   currentContact: state.contacts.current,
+  addContactLoading: state.contacts.addContactLoading,
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -470,8 +470,36 @@ table th {
 
 .contacts-container {
     overflow-y: auto;
-    max-height: 80vh;
+    max-height: 150vh;
     scrollbar-width: thin;
+}
+
+
+/* Contacts container scroll bar */
+
+.contacts-container::-webkit-scrollbar {
+    width: 2px;
+}
+
+
+/* Track */
+
+.contacts-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+
+/* Handle */
+
+.contacts-container::-webkit-scrollbar-thumb {
+    background: #999;
+}
+
+
+/* Handle on hover */
+
+.contacts-container::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }
 
 

@@ -12,6 +12,7 @@ const INITIAL_STATE = {
     previousPage: null,
     nextPage: null,
     loadingMore: false,
+    addContactLoading: false,
 };
 
 const contactReducer = (currentState = INITIAL_STATE, action) => {
@@ -27,11 +28,17 @@ const contactReducer = (currentState = INITIAL_STATE, action) => {
                 ),
                 loading: false,
             };
+        case ContactActionTypes.ADD_CONTACT_START:
+            return {
+                ...currentState,
+                addContactLoading: true,
+            };
         case ContactActionTypes.ADD_CONTACT_SUCCESS:
             return {
                 ...currentState,
                 contacts: [action.payload, ...currentState.contacts],
                 totalContacts: currentState.totalContacts + 1,
+                addContactLoading: false,
             };
         case ContactActionTypes.UPDATE_CONTACT_SUCCESS:
             return {
@@ -51,6 +58,9 @@ const contactReducer = (currentState = INITIAL_STATE, action) => {
                     ),
                 ],
                 totalContacts: currentState.totalContacts - 1,
+                totalResults: currentState.totalResults >= 5 ?
+                    currentState.totalResults :
+                    currentState.totalResults - 1,
             };
         case ContactActionTypes.LOAD_MORE_START:
             return {
@@ -121,12 +131,14 @@ const contactReducer = (currentState = INITIAL_STATE, action) => {
                 contacts: [...currentState.contacts],
                 loadingMore: false,
                 currentPage: currentState.currentPage,
+                addContactLoading: false,
             };
         case ContactActionTypes.LOAD_MORE_FAILURE:
         case ContactActionTypes.LOAD_LESS_FAILURE:
             return {
                 ...currentState,
                 currentPage: action.payload,
+                loadingMore: false,
             };
         default:
             return currentState;
