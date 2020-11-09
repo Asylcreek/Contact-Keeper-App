@@ -328,6 +328,18 @@ button {
     }
 }
 
+.show-more {
+    text-align: center;
+    margin: 1rem 0;
+    cursor: pointer;
+}
+
+.u-flex-x-y-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .btn-primary,
 .bg-primary,
 .badge-primary,

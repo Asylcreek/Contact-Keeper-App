@@ -6,6 +6,12 @@ const INITIAL_STATE = {
     current: null,
     filteredContacts: null,
     loading: true,
+    totalResults: 0,
+    pages: 0,
+    currentPage: 1,
+    previousPage: null,
+    nextPage: null,
+    loadingMore: false,
 };
 
 const contactReducer = (currentState = INITIAL_STATE, action) => {
@@ -15,6 +21,10 @@ const contactReducer = (currentState = INITIAL_STATE, action) => {
                 ...currentState,
                 contacts: [...action.payload.data.data],
                 totalContacts: action.payload.totalDocuments,
+                totalResults: action.payload.results,
+                pages: Math.ceil(
+                    action.payload.totalDocuments / action.payload.results
+                ),
                 loading: false,
             };
         case ContactActionTypes.ADD_CONTACT_SUCCESS:
@@ -41,6 +51,36 @@ const contactReducer = (currentState = INITIAL_STATE, action) => {
                     ),
                 ],
                 totalContacts: currentState.totalContacts - 1,
+            };
+        case ContactActionTypes.LOAD_MORE_START:
+            return {
+                ...currentState,
+                loadingMore: true,
+                currentPage: action.payload,
+            };
+        case ContactActionTypes.LOAD_LESS_START:
+            return {
+                ...currentState,
+                loadingMore: true,
+                currentPage: action.payload - 1,
+            };
+        case ContactActionTypes.LOAD_MORE_SUCCESS:
+            return {
+                ...currentState,
+                contacts: [...currentState.contacts, ...action.payload.data.data],
+                totalResults: currentState.totalResults + action.payload.results,
+                loadingMore: false,
+            };
+        case ContactActionTypes.LOAD_LESS_SUCCESS:
+            return {
+                ...currentState,
+                contacts: [
+                    ...currentState.contacts.filter(
+                        (contact) => !action.payload.data.includes(contact._id)
+                    ),
+                ],
+                totalResults: currentState.totalResults - action.payload.results,
+                loadingMore: false,
             };
         case ContactActionTypes.SET_CURRENT_CONTACT:
             return {
@@ -79,6 +119,14 @@ const contactReducer = (currentState = INITIAL_STATE, action) => {
                 current: null,
                 filteredContacts: null,
                 contacts: [...currentState.contacts],
+                loadingMore: false,
+                currentPage: currentState.currentPage,
+            };
+        case ContactActionTypes.LOAD_MORE_FAILURE:
+        case ContactActionTypes.LOAD_LESS_FAILURE:
+            return {
+                ...currentState,
+                currentPage: action.payload,
             };
         default:
             return currentState;

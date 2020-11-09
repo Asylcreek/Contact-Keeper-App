@@ -29,11 +29,9 @@ function App({ checkUserSession, user, appLoading }) {
   if (appLoading)
     return (
       <div
+        className="u-flex-x-y-center"
         style={{
           height: '100vh',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
           flexDirection: 'column',
         }}
       >

@@ -75,3 +75,33 @@ export const clearFilter = () => ({
 export const clearContacts = () => ({
     type: ContactActionTypes.CLEAR_CONTACTS,
 });
+
+export const loadMoreStart = (pageNo) => ({
+    type: ContactActionTypes.LOAD_MORE_START,
+    payload: pageNo,
+});
+
+export const loadMoreSuccess = (contacts) => ({
+    type: ContactActionTypes.LOAD_MORE_SUCCESS,
+    payload: contacts,
+});
+
+export const loadMoreFailure = (pageNo) => ({
+    type: ContactActionTypes.LOAD_MORE_FAILURE,
+    payload: pageNo,
+});
+
+export const loadLessStart = (pageNo) => ({
+    type: ContactActionTypes.LOAD_LESS_START,
+    payload: pageNo,
+});
+
+export const loadLessSuccess = (contacts) => ({
+    type: ContactActionTypes.LOAD_LESS_SUCCESS,
+    payload: contacts,
+});
+
+export const loadLessFailure = (pageNo) => ({
+    type: ContactActionTypes.LOAD_LESS_FAILURE,
+    payload: pageNo,
+});

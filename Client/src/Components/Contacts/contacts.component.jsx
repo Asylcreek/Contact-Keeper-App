@@ -13,7 +13,6 @@ const Contacts = ({
   filteredContacts,
   getAllContacts,
   contactsLoading,
-  totalContacts,
 }) => {
   useEffect(() => {
     getAllContacts();
@@ -30,7 +29,7 @@ const Contacts = ({
     >
       {contactsLoading ? (
         <Loader
-          style={{ display: 'flex', justifyContent: 'center' }}
+          className="u-flex-x-y-center"
           type="Oval"
           color="#003699"
           height={80}
@@ -38,30 +37,22 @@ const Contacts = ({
         />
       ) : (filteredContacts ?? contacts).length ? (
         <Fragment>
-          {' '}
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              marginBottom: '1rem',
-            }}
-          >
-            {filteredContacts ? (
+          {filteredContacts && (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                marginBottom: '1rem',
+              }}
+            >
               <Fragment>
                 <span>
                   <strong>Search Results:</strong>
                 </span>
                 <span>{filteredContacts?.length}</span>
               </Fragment>
-            ) : (
-              <Fragment>
-                <span>
-                  <strong>Total Contacts:</strong>
-                </span>
-                <span>{totalContacts}</span>
-              </Fragment>
-            )}
-          </div>
+            </div>
+          )}
           <TransitionGroup className="contacts-container">
             {(filteredContacts ?? contacts).map((contact) => (
               <CSSTransition key={contact._id} timeout={200} classNames="item">
