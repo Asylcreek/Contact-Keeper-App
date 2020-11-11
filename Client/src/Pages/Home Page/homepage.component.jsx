@@ -42,9 +42,11 @@ const HomePage = ({
           className="show-more u-flex-x-y-center"
           style={{ flexDirection: 'column', marginBottom: '1rem' }}
         >
-          <p style={{ marginBottom: '1rem' }}>
-            Showing {totalResults} out of {totalContacts}
-          </p>
+          {totalContacts > 0 && (
+            <p style={{ marginBottom: '1rem' }}>
+              Showing {totalResults} out of {totalContacts}
+            </p>
+          )}
           {totalPages > 1 ? (
             <div className="btn">
               {!loadingMoreContacts ? (

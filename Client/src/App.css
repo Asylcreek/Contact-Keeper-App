@@ -49,7 +49,7 @@ img {
     margin: auto;
     overflow: hidden;
     padding: 0 2rem;
-    position: relative;
+    /* position: relative; */
 }
 
 
@@ -271,7 +271,7 @@ img {
 
 .alert-container {
     position: absolute;
-    top: 0;
+    top: 5rem;
     right: 1rem;
     overflow-y: auto;
     overflow-x: hidden;
@@ -332,6 +332,7 @@ button {
     text-align: center;
     margin: 1rem 0;
     cursor: pointer;
+    position: relative;
 }
 
 .u-flex-x-y-center {
@@ -500,6 +501,36 @@ table th {
 
 .contacts-container::-webkit-scrollbar-thumb:hover {
     background: #555;
+}
+
+
+/* Back to top */
+
+.back-to-top-container {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    padding: 0 2rem;
+    background-color: transparent;
+}
+
+@media only screen and (max-width: 68.75em) {
+    .back-to-top-container {
+        padding: 0 1rem;
+    }
+}
+
+.back-to-top {
+    height: 1.6rem;
+    width: 1.6rem;
+    background-color: #eee;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 3rem;
+    right: 50%;
+    transform: translateX(50%);
+    cursor: pointer;
 }
 
 
