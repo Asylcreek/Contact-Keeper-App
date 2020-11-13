@@ -34,9 +34,6 @@ export function* addContact({ payload }) {
     try {
         const response = yield axios.post('/api/contacts', payload);
         yield put(addContactSuccess(response.data.data.data));
-
-        //Refresh the totalContacts and totalResults
-        yield getAllContacts();
     } catch (err) {
         yield put(setAlert({ message: err.response.data.message, type: 'danger' }));
         yield put(addContactFailure());
@@ -44,12 +41,13 @@ export function* addContact({ payload }) {
 }
 
 export function* deleteContact({ payload }) {
+    const { id, currentPage } = payload;
     try {
-        yield axios.delete(`/api/contacts/${payload}`);
-        yield put(deleteContactSuccess(payload));
+        yield axios.delete(`/api/contacts/${id}`);
+        yield put(deleteContactSuccess(id));
 
         //Refresh the totalContacts and totalResults
-        yield getAllContacts();
+        yield loadMore({ payload: currentPage });
     } catch (err) {
         yield put(setAlert({ message: err.response.data.message, type: 'danger' }));
         yield put(deleteContactFailure());
@@ -79,19 +77,12 @@ export function* loadMore({ payload }) {
 }
 
 export function* loadLess({ payload }) {
-    const results = {};
     try {
         const response = yield axios.get(
             `/api/contacts/my-contacts?page=${payload}`
         );
 
-        //Add the number of results to the empty object
-        results.results = response.data.results;
-
-        //Add only the id of the contacts gotten from the response
-        results.data = response.data.data.data.map((contact) => contact._id);
-
-        yield put(loadLessSuccess(results));
+        yield put(loadLessSuccess(response.data));
     } catch (err) {
         yield put(setAlert({ message: err.response.data.message, type: 'danger' }));
         yield put(loadLessFailure(payload));

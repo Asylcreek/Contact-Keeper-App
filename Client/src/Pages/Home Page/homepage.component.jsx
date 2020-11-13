@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import Loader from 'react-loader-spinner';
 
 import Contacts from '../../Components/Contacts/contacts.component';
 import ContactForm from '../../Components/Contact Form/contact-form.component';
 import FilterContacts from '../../Components/Filter Contacts/filter-contacts.component';
+
 import {
   loadLessStart,
   loadMoreStart,
@@ -14,22 +14,11 @@ const HomePage = ({
   contacts,
   totalContacts,
   totalResults,
-  totalPages,
   currentPage,
   loadMoreContacts,
   loadingMoreContacts,
   loadLessContacts,
 }) => {
-  const [moreContacts, setMoreContacts] = useState(true);
-
-  useEffect(() => {
-    if (totalPages && currentPage >= totalPages && !loadingMoreContacts)
-      return setMoreContacts(false);
-
-    if (totalPages && currentPage === 1 && !loadingMoreContacts)
-      return setMoreContacts(true);
-  }, [currentPage, setMoreContacts, totalPages, loadingMoreContacts]);
-
   return (
     <div className="grid-2">
       <div>
@@ -47,17 +36,15 @@ const HomePage = ({
               Showing {totalResults} out of {totalContacts}
             </p>
           )}
-          {totalPages > 1 ? (
+          {totalContacts > 5 ? (
             <div className="btn">
               {!loadingMoreContacts ? (
-                moreContacts ? (
+                totalContacts > totalResults ? (
                   <span onClick={() => loadMoreContacts(currentPage + 1)}>
-                    Show Older
+                    Load More
                   </span>
                 ) : (
-                  <span onClick={() => loadLessContacts(currentPage)}>
-                    Show Newer
-                  </span>
+                  <span onClick={() => loadLessContacts(1)}>Load Less</span>
                 )
               ) : (
                 <Loader
@@ -82,7 +69,6 @@ const mapStateToProps = (state) => ({
   contacts: state.contacts.contacts,
   totalContacts: state.contacts.totalContacts,
   totalResults: state.contacts.totalResults,
-  totalPages: state.contacts.pages,
   currentPage: state.contacts.currentPage,
   loadingMoreContacts: state.contacts.loadingMore,
 });

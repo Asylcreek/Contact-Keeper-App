@@ -11,12 +11,20 @@ const ContactItem = ({
   deleteContact,
   setCurrentContact,
   clearCurrentContact,
+  contacts,
 }) => {
   const { _id, name, email, phoneNumber, type } = contact;
 
   const handleDelete = () => {
-    //Delete the contact
-    deleteContact(_id);
+    const pageOfContact = Math.ceil(
+      (contacts.findIndex((contact) => _id === contact._id) + 1) / 5
+    );
+
+    // Delete the contact
+    deleteContact({
+      id: _id,
+      currentPage: pageOfContact,
+    });
 
     //Set current contact to null, for situations where the deleted contact is the current contact
     clearCurrentContact();
@@ -62,10 +70,15 @@ const ContactItem = ({
   );
 };
 
+const mapStateToProps = (state) => ({
+  contacts: state.contacts.contacts,
+});
+
 const mapDispatchToProps = (dispatch) => ({
   setCurrentContact: (contact) => dispatch(setCurrentContact(contact)),
   clearCurrentContact: () => dispatch(clearCurrentContact()),
-  deleteContact: (id) => dispatch(deleteContactStart(id)),
+  deleteContact: ({ id, currentPage }) =>
+    dispatch(deleteContactStart({ id, currentPage })),
 });
 
-export default connect(null, mapDispatchToProps)(ContactItem);
+export default connect(mapStateToProps, mapDispatchToProps)(ContactItem);

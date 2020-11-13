@@ -9,8 +9,6 @@ const INITIAL_STATE = {
     totalResults: 0,
     pages: 0,
     currentPage: 1,
-    previousPage: null,
-    nextPage: null,
     loadingMore: false,
     addContactLoading: false,
 };
@@ -36,8 +34,20 @@ const contactReducer = (currentState = INITIAL_STATE, action) => {
         case ContactActionTypes.ADD_CONTACT_SUCCESS:
             return {
                 ...currentState,
-                contacts: [action.payload, ...currentState.contacts],
+                contacts: currentState.totalResults !== 5 &&
+                    currentState.totalContacts === currentState.totalResults ?
+                    [action.payload, ...currentState.contacts] :
+                    [
+                        action.payload,
+                        ...currentState.contacts.filter(
+                            (el, i) => i < currentState.totalResults - 1
+                        ),
+                    ],
                 totalContacts: currentState.totalContacts + 1,
+                totalResults: currentState.totalContacts !== 5 &&
+                    currentState.totalContacts === currentState.totalResults ?
+                    currentState.totalContacts + 1 :
+                    currentState.contacts.length,
                 addContactLoading: false,
             };
         case ContactActionTypes.UPDATE_CONTACT_SUCCESS:
@@ -58,38 +68,33 @@ const contactReducer = (currentState = INITIAL_STATE, action) => {
                     ),
                 ],
                 totalContacts: currentState.totalContacts - 1,
-                totalResults: currentState.totalResults >= 5 ?
-                    currentState.totalResults :
-                    currentState.totalResults - 1,
+                totalResults: currentState.totalResults - 1,
             };
         case ContactActionTypes.LOAD_MORE_START:
+        case ContactActionTypes.LOAD_LESS_START:
             return {
                 ...currentState,
                 loadingMore: true,
                 currentPage: action.payload,
             };
-        case ContactActionTypes.LOAD_LESS_START:
-            return {
-                ...currentState,
-                loadingMore: true,
-                currentPage: action.payload - 1,
-            };
         case ContactActionTypes.LOAD_MORE_SUCCESS:
+            const moreContacts = action.payload.data.data.filter(
+                (el) => !currentState.contacts.map((c) => c._id).includes(el._id)
+            );
             return {
                 ...currentState,
-                contacts: [...currentState.contacts, ...action.payload.data.data],
-                totalResults: currentState.totalResults + action.payload.results,
+                contacts: [...currentState.contacts, ...moreContacts],
+                totalResults: currentState.totalResults + action.payload.results >
+                    currentState.totalContacts ?
+                    currentState.totalContacts :
+                    currentState.totalResults + moreContacts.length,
                 loadingMore: false,
             };
         case ContactActionTypes.LOAD_LESS_SUCCESS:
             return {
                 ...currentState,
-                contacts: [
-                    ...currentState.contacts.filter(
-                        (contact) => !action.payload.data.includes(contact._id)
-                    ),
-                ],
-                totalResults: currentState.totalResults - action.payload.results,
+                contacts: [...action.payload.data.data],
+                totalResults: action.payload.results,
                 loadingMore: false,
             };
         case ContactActionTypes.SET_CURRENT_CONTACT:

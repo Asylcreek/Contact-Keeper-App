@@ -29,7 +29,8 @@ function App({ checkUserSession, user, appLoading }) {
 
   const handleScroll = () => {
     const position = window.pageYOffset;
-    setScrollPosition(position);
+    if (position > 400) return setScrollPosition(position);
+    setScrollPosition(0);
   };
 
   useEffect(() => {
