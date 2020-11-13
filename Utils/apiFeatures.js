@@ -12,7 +12,10 @@ class APIFeatures {
 
         //Implementing advanced filtering features
         let queryStr = JSON.stringify(queryObj);
-        queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
+        queryStr = queryStr.replace(
+            /\b(gte|gt|lte|lt|regex|options)\b/g,
+            (match) => `$${match}`
+        );
 
         //Add the queryString to the class to use to count the documents in the collection
         this.q = JSON.parse(queryStr);

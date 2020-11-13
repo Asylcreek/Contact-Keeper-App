@@ -1,4 +1,4 @@
-import { Fragment, useEffect } from 'react';
+import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
@@ -35,32 +35,14 @@ const Contacts = ({
           height={80}
           width={80}
         />
-      ) : (filteredContacts ?? contacts).length ? (
-        <Fragment>
-          {filteredContacts && (
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                marginBottom: '1rem',
-              }}
-            >
-              <Fragment>
-                <span>
-                  <strong>Search Results:</strong>
-                </span>
-                <span>{filteredContacts?.length}</span>
-              </Fragment>
-            </div>
-          )}
-          <TransitionGroup className="contacts-container">
-            {(filteredContacts ?? contacts).map((contact) => (
-              <CSSTransition key={contact._id} timeout={200} classNames="item">
-                <ContactItem contact={contact} />
-              </CSSTransition>
-            ))}
-          </TransitionGroup>
-        </Fragment>
+      ) : contacts.length ? (
+        <TransitionGroup className="contacts-container">
+          {contacts.map((contact) => (
+            <CSSTransition key={contact._id} timeout={200} classNames="item">
+              <ContactItem contact={contact} />
+            </CSSTransition>
+          ))}
+        </TransitionGroup>
       ) : (
         <h4 style={{ alignSelf: 'center' }}>
           {filteredContacts

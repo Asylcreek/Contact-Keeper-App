@@ -3,17 +3,29 @@ import { connect } from 'react-redux';
 
 import {
   clearFilter,
-  filterContacts,
+  filterContactsStart,
+  getAllContactsStart,
 } from '../../Redux/contact/contact.actions';
 
-const FilterContacts = ({ filterContacts, clearFilter }) => {
+const FilterContacts = ({
+  filterContacts,
+  clearFilter,
+  getContacts,
+  filteredContacts,
+}) => {
   const [filter, setFilter] = useState('');
 
   useEffect(() => {
     if (filter) return filterContacts(filter);
 
-    clearFilter();
-  }, [filter, filterContacts, clearFilter]);
+    if (filteredContacts) {
+      //Clear filters
+      clearFilter();
+
+      //Get all contacts afresh
+      getContacts();
+    }
+  }, [filter, filterContacts, clearFilter, getContacts, filteredContacts]);
 
   return (
     <form>
@@ -28,9 +40,14 @@ const FilterContacts = ({ filterContacts, clearFilter }) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  filterContacts: (filter) => dispatch(filterContacts(filter)),
-  clearFilter: () => dispatch(clearFilter()),
+const mapStateToProps = (state) => ({
+  filteredContacts: state.contacts.filteredContacts,
 });
 
-export default connect(null, mapDispatchToProps)(FilterContacts);
+const mapDispatchToProps = (dispatch) => ({
+  filterContacts: (filter) => dispatch(filterContactsStart(filter)),
+  clearFilter: () => dispatch(clearFilter()),
+  getContacts: () => dispatch(getAllContactsStart()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(FilterContacts);

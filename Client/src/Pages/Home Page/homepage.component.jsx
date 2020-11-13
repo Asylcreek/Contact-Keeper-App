@@ -18,6 +18,8 @@ const HomePage = ({
   loadMoreContacts,
   loadingMoreContacts,
   loadLessContacts,
+  filteredContacts,
+  filter,
 }) => {
   return (
     <div className="grid-2">
@@ -25,7 +27,7 @@ const HomePage = ({
         <ContactForm />
       </div>
       <div>
-        {contacts.length > 1 && <FilterContacts />}
+        {(filteredContacts || contacts.length > 1) && <FilterContacts />}
         <Contacts />
         <div
           className="show-more u-flex-x-y-center"
@@ -40,11 +42,17 @@ const HomePage = ({
             <div className="btn">
               {!loadingMoreContacts ? (
                 totalContacts > totalResults ? (
-                  <span onClick={() => loadMoreContacts(currentPage + 1)}>
+                  <span
+                    onClick={() =>
+                      loadMoreContacts({ pageNo: currentPage + 1, filter })
+                    }
+                  >
                     Load More
                   </span>
                 ) : (
-                  <span onClick={() => loadLessContacts(1)}>Load Less</span>
+                  <span onClick={() => loadLessContacts({ pageNo: 1, filter })}>
+                    Load Less
+                  </span>
                 )
               ) : (
                 <Loader
@@ -71,11 +79,15 @@ const mapStateToProps = (state) => ({
   totalResults: state.contacts.totalResults,
   currentPage: state.contacts.currentPage,
   loadingMoreContacts: state.contacts.loadingMore,
+  filteredContacts: state.contacts.filteredContacts,
+  filter: state.contacts.filter,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  loadMoreContacts: (pageNo) => dispatch(loadMoreStart(pageNo)),
-  loadLessContacts: (pageNo) => dispatch(loadLessStart(pageNo)),
+  loadMoreContacts: ({ pageNo, filter }) =>
+    dispatch(loadMoreStart({ pageNo, filter })),
+  loadLessContacts: ({ pageNo, filter }) =>
+    dispatch(loadLessStart({ pageNo, filter })),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

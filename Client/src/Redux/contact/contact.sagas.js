@@ -16,6 +16,8 @@ import {
     loadMoreSuccess,
     loadLessSuccess,
     loadLessFailure,
+    filterContactsFailure,
+    filterContactsSuccess,
 } from './contact.actions';
 
 import { setAlert } from '../app/app.actions';
@@ -65,61 +67,85 @@ export function* updateContact({ payload }) {
 }
 
 export function* loadMore({ payload }) {
-    try {
-        const response = yield axios.get(
-            `/api/contacts/my-contacts?page=${payload}`
-        );
-        yield put(loadMoreSuccess(response.data));
-    } catch (err) {
-        yield put(setAlert({ message: err.response.data.message, type: 'danger' }));
-        yield put(loadMoreFailure(payload - 1));
-    }
+        const { pageNo, filter } = payload;
+        try {
+            const response = yield axios.get(
+                    `/api/contacts/my-contacts?page=${pageNo}${
+        filter ? `&name[regex]=${filter}&name[options]=i` : ''
+      }`
+    );
+    yield put(loadMoreSuccess(response.data));
+  } catch (err) {
+    yield put(setAlert({ message: err.response.data.message, type: 'danger' }));
+    yield put(loadMoreFailure(payload - 1));
+  }
 }
 
 export function* loadLess({ payload }) {
-    try {
-        const response = yield axios.get(
-            `/api/contacts/my-contacts?page=${payload}`
-        );
+  const { pageNo, filter } = payload;
+  try {
+    const response = yield axios.get(
+      `/api/contacts/my-contacts?page=${pageNo}${
+        filter ? `&name[regex]=${filter}&name[options]=i` : ''
+      }`
+    );
+    yield put(loadLessSuccess(response.data));
+  } catch (err) {
+    yield put(setAlert({ message: err.response.data.message, type: 'danger' }));
+    yield put(loadLessFailure(payload));
+  }
+}
 
-        yield put(loadLessSuccess(response.data));
-    } catch (err) {
-        yield put(setAlert({ message: err.response.data.message, type: 'danger' }));
-        yield put(loadLessFailure(payload));
-    }
+export function* filterContacts({ payload }) {
+  try {
+    const response = yield axios.get(
+      `/api/contacts/my-contacts?name[regex]=${payload}&name[options]=i`
+    );
+
+    yield put(getAllContactsSuccess(response.data));
+    yield put(filterContactsSuccess());
+  } catch (err) {
+    yield put(setAlert({ message: err.response.data.message, type: 'danger' }));
+    yield put(filterContactsFailure(payload));
+  }
 }
 
 export function* onGetAllContactsStart() {
-    yield takeLatest(ContactActionTypes.GET_CONTACTS_START, getAllContacts);
+  yield takeLatest(ContactActionTypes.GET_CONTACTS_START, getAllContacts);
 }
 
 export function* onAddContactStart() {
-    yield takeLatest(ContactActionTypes.ADD_CONTACT_START, addContact);
+  yield takeLatest(ContactActionTypes.ADD_CONTACT_START, addContact);
 }
 
 export function* onDeleteContactStart() {
-    yield takeLatest(ContactActionTypes.DELETE_CONTACT_START, deleteContact);
+  yield takeLatest(ContactActionTypes.DELETE_CONTACT_START, deleteContact);
 }
 
 export function* onUpdateContactStart() {
-    yield takeLatest(ContactActionTypes.UPDATE_CONTACT_START, updateContact);
+  yield takeLatest(ContactActionTypes.UPDATE_CONTACT_START, updateContact);
 }
 
 export function* onLoadMoreStart() {
-    yield takeLatest(ContactActionTypes.LOAD_MORE_START, loadMore);
+  yield takeLatest(ContactActionTypes.LOAD_MORE_START, loadMore);
 }
 
 export function* onLoadLessStart() {
-    yield takeLatest(ContactActionTypes.LOAD_LESS_START, loadLess);
+  yield takeLatest(ContactActionTypes.LOAD_LESS_START, loadLess);
+}
+
+export function* onFilterContactsStart() {
+  yield takeLatest(ContactActionTypes.FILTER_CONTACTS_START, filterContacts);
 }
 
 export function* contactSagas() {
-    yield all([
-        call(onGetAllContactsStart),
-        call(onAddContactStart),
-        call(onDeleteContactStart),
-        call(onUpdateContactStart),
-        call(onLoadMoreStart),
-        call(onLoadLessStart),
-    ]);
+  yield all([
+    call(onGetAllContactsStart),
+    call(onAddContactStart),
+    call(onDeleteContactStart),
+    call(onUpdateContactStart),
+    call(onLoadMoreStart),
+    call(onLoadLessStart),
+    call(onFilterContactsStart),
+  ]);
 }
