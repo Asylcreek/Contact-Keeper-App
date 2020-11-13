@@ -43,13 +43,13 @@ export function* addContact({ payload }) {
 }
 
 export function* deleteContact({ payload }) {
-    const { id, currentPage } = payload;
+    const { id, currentPage, filter } = payload;
     try {
         yield axios.delete(`/api/contacts/${id}`);
         yield put(deleteContactSuccess(id));
 
         //Refresh the totalContacts and totalResults
-        yield loadMore({ payload: currentPage });
+        yield loadMore({ payload: { pageNo: currentPage, filter } });
     } catch (err) {
         yield put(setAlert({ message: err.response.data.message, type: 'danger' }));
         yield put(deleteContactFailure());

@@ -87,10 +87,7 @@ const contactReducer = (currentState = INITIAL_STATE, action) => {
             return {
                 ...currentState,
                 contacts: [...currentState.contacts, ...moreContacts],
-                totalResults: currentState.totalResults + action.payload.results >
-                    currentState.totalContacts ?
-                    currentState.totalContacts :
-                    currentState.totalResults + moreContacts.length,
+                totalResults: currentState.totalResults + moreContacts.length,
                 loadingMore: false,
             };
         case ContactActionTypes.LOAD_LESS_SUCCESS:

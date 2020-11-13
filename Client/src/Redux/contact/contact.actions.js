@@ -27,9 +27,9 @@ export const getAllContactsFailure = () => ({
     type: ContactActionTypes.GET_CONTACTS_FAILURE,
 });
 
-export const deleteContactStart = ({ id, currentPage }) => ({
+export const deleteContactStart = ({ id, currentPage, filter }) => ({
     type: ContactActionTypes.DELETE_CONTACT_START,
-    payload: { id, currentPage },
+    payload: { id, currentPage, filter },
 });
 
 export const deleteContactSuccess = (id) => ({

@@ -12,6 +12,7 @@ const ContactItem = ({
   setCurrentContact,
   clearCurrentContact,
   contacts,
+  filter,
 }) => {
   const { _id, name, email, phoneNumber, type } = contact;
 
@@ -24,6 +25,7 @@ const ContactItem = ({
     deleteContact({
       id: _id,
       currentPage: pageOfContact,
+      filter,
     });
 
     //Set current contact to null, for situations where the deleted contact is the current contact
@@ -72,13 +74,14 @@ const ContactItem = ({
 
 const mapStateToProps = (state) => ({
   contacts: state.contacts.contacts,
+  filter: state.contacts.filter,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   setCurrentContact: (contact) => dispatch(setCurrentContact(contact)),
   clearCurrentContact: () => dispatch(clearCurrentContact()),
-  deleteContact: ({ id, currentPage }) =>
-    dispatch(deleteContactStart({ id, currentPage })),
+  deleteContact: ({ id, currentPage, filter }) =>
+    dispatch(deleteContactStart({ id, currentPage, filter })),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactItem);
