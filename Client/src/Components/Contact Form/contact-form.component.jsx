@@ -7,6 +7,8 @@ import { setAlert } from '../../Redux/app/app.actions';
 import {
   addContactStart,
   clearCurrentContact,
+  clearFilter,
+  getAllContactsStart,
   updateContactStart,
 } from '../../Redux/contact/contact.actions';
 
@@ -17,6 +19,9 @@ const ContactForm = ({
   updateContact,
   setAlert,
   addContactLoading,
+  clearFilter,
+  filter,
+  getContacts,
 }) => {
   const [contact, setContact] = useState({
     name: '',
@@ -50,6 +55,14 @@ const ContactForm = ({
         message: 'Name or Phone number cannot be empty',
         type: 'danger',
       });
+
+    if (filter) {
+      //Clear filters
+      clearFilter();
+
+      //Get all contacts afresh
+      getContacts();
+    }
 
     //Add the contact
     addContact({ ...contact });
@@ -90,22 +103,28 @@ const ContactForm = ({
         onChange={handleChange}
       />
       <h5>Contact Type</h5>
-      <input
-        type="radio"
-        name="type"
-        value="personal"
-        checked={type === 'personal'}
-        onChange={handleChange}
-      />{' '}
-      Personal
-      <input
-        type="radio"
-        name="type"
-        value="professional"
-        checked={type === 'professional'}
-        onChange={handleChange}
-      />{' '}
-      Professional
+      <label htmlFor="personal" className="mr-half">
+        <input
+          type="radio"
+          name="type"
+          id="personal"
+          value="personal"
+          checked={type === 'personal'}
+          onChange={handleChange}
+        />{' '}
+        Personal
+      </label>
+      <label htmlFor="professional">
+        <input
+          type="radio"
+          name="type"
+          id="professional"
+          value="professional"
+          checked={type === 'professional'}
+          onChange={handleChange}
+        />{' '}
+        Professional
+      </label>
       <div>
         {!currentContact ? (
           !addContactLoading ? (
@@ -154,6 +173,7 @@ const ContactForm = ({
 const mapStateToProps = (state) => ({
   currentContact: state.contacts.current,
   addContactLoading: state.contacts.addContactLoading,
+  filter: state.contacts.filter,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -161,6 +181,8 @@ const mapDispatchToProps = (dispatch) => ({
   clearCurrentContact: () => dispatch(clearCurrentContact()),
   updateContact: (contact) => dispatch(updateContactStart(contact)),
   setAlert: ({ message, type }) => dispatch(setAlert({ message, type })),
+  clearFilter: () => dispatch(clearFilter()),
+  getContacts: () => dispatch(getAllContactsStart()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);

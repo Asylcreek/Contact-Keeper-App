@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import {
@@ -12,20 +12,17 @@ const FilterContacts = ({
   clearFilter,
   getContacts,
   filteredContacts,
+  filter,
 }) => {
-  const [filter, setFilter] = useState('');
-
   useEffect(() => {
-    if (filter) return filterContacts(filter);
-
-    if (filteredContacts) {
+    if (filteredContacts && !filter) {
       //Clear filters
       clearFilter();
 
       //Get all contacts afresh
       getContacts();
     }
-  }, [filter, filterContacts, clearFilter, getContacts, filteredContacts]);
+  }, [clearFilter, getContacts, filteredContacts, filter]);
 
   return (
     <form>
@@ -34,7 +31,7 @@ const FilterContacts = ({
         name="filter"
         placeholder="Filter Contacts..."
         value={filter}
-        onChange={(event) => setFilter(event.target.value)}
+        onChange={(event) => filterContacts(event.target.value)}
       />
     </form>
   );
@@ -42,6 +39,7 @@ const FilterContacts = ({
 
 const mapStateToProps = (state) => ({
   filteredContacts: state.contacts.filteredContacts,
+  filter: state.contacts.filter,
 });
 
 const mapDispatchToProps = (dispatch) => ({
